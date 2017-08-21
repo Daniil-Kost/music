@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,9 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'music',
+    'django.contrib.sites',
+    'crispy_forms',
     'catalog',
-]
+	]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,6 +65,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.core.context_processors.request",
+                "music.context_processors.catalog_proc",
+                "catalog.context_processors.genres_processor",
             ],
         },
     },
@@ -76,17 +79,24 @@ WSGI_APPLICATION = 'music.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'HOST': 'localhost',
+#        'USER': 'music_db_user',
+#        'PASSWORD': 'music1',
+#        'NAME': 'music_db',
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'localhost',
-        'USER': 'music_db_user',
-        'PASSWORD': 'music1',
-        'NAME': 'music_db',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, '..', 'db.sqlite3'),
     }
 }
 
-
+SITE_ID =1
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -124,3 +134,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PORTAL_URL = 'http://localhost:8000'
+
+MEDIA_URL ='/media/'
+
+MEDIA_ROOT =os.path.join(BASE_DIR, '..', 'media')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+

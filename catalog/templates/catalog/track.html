@@ -1,0 +1,107 @@
+{% extends "catalog/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Track{% endblock meta_title %}
+
+{% block extra_css %}
+<style>
+	body {
+    background-image: url("{% static 'image/flower.jpg' %}") !important;
+    color: white !important;
+   }
+
+	#ajax_form {
+   		background: transparent !important; 
+   }
+  
+</style>
+{% endblock extra_css %}
+
+{% block menu %}
+<div class="col-xs-12">
+<ul class="nav nav-tabs" role="tablist">
+<li role ="presentation"
+	  	class="active">
+	  	<a href="{% url 'home' %}">Track</a>
+	  	</li>
+</ul>
+</div>
+{% endblock menu %}
+
+
+{% block title %}{{ track.track_name }}{% endblock title %}
+{% block content %}
+
+	<!-- Start Main Page Content -->
+<!-- <form method="post" accept-charset="utf-8" id="ajax_form"> -->
+
+ {% csrf_token %}
+
+ <form method="post" accept-charset="utf-8" id="ajax_form">
+
+<table class="table table-bordered" 
+  id ="ajax_track_table">
+    <tr>
+     	<td class="name">Photo <i class="fa fa-picture-o" aria-hidden="true"></i></td>
+      	<td>{% if track.track_photo %}
+					<img height="150" width="150" 
+					src="{{ track.track_photo.url }}"
+					 class="img-circle"> 
+					{% else %}
+					<img height="150" width="150" 
+					src="{% static 'image/avatar.png' %}"
+					 class="img-circle">
+		{% endif %}</td>
+    </tr>
+
+	<tr>
+		<td class="name">Name <i class="fa fa-tag" aria-hidden="true"></i></td>
+		<td>{{ track.track_name }}</td>
+	</tr>
+	
+	<tr>
+
+		<td class="name">Singers <i class="fa fa-users" aria-hidden="true"></i></td>
+		<td>
+		{% for singer in track.track_singers.all %}
+		<li>{{ singer }}</li>
+		{% endfor %}
+		</td>
+	</tr>
+
+    <tr>
+    	<td class="name">Album <i class="fa fa-address-book-o" aria-hidden="true"></i></td>
+    	<td>{{ track.track_album }}</td>
+	</tr>
+
+    <tr>
+    	<td class="name">Genre <i class="fa fa-star" aria-hidden="true"></i></td>
+    	<td>{{ track.track_genre }}</td>
+   	</tr>
+
+    <tr>
+    	<td class="name">Music <i class="fa fa-play-circle" aria-hidden="true"></i></td>
+
+    	<td id ="song"><a href="http://localhost:8000/media/{{ track.track_song }}" target="_blank" title="Listen It !"><b><u>LISTEN SONG NOW !</u></b></a>
+    	</td>
+    </tr>
+
+
+
+      
+ </table>	
+
+	<div class="form-group" id="div-btn">
+			<a href="{% url 'albums' %}"><button id="submit-id-login_cancel_button" class="btn save btn-primary" name="home_button" type="button">Close
+			</button></a>
+	</div>
+	
+</form>
+
+<!-- </form> -->
+
+
+	<!-- End Main Page Content-->
+	
+{% endblock content %}

@@ -1,0 +1,116 @@
+{% extends "catalog/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Albums{% endblock meta_title %}
+
+{% block extra_css %}
+<style>
+	body {
+		background-image: url("{% static 'image/nature5.jpg' %}") !important;
+		color: white !important;
+	 }
+
+</style>
+{% endblock extra_css %}
+
+{% block title %}Albums List{% endblock title %}
+
+{% block content %}
+
+
+
+<table class="table table-bordered" 
+  id ="albums_table">
+    <thead>
+    <tr class="header">
+      <th class="num">#</th>
+      <th class="name">Photo <i class="fa fa-picture-o" aria-hidden="true"></i></th>
+      <th class="name">Name <i class="fa fa-tag" aria-hidden="true"></i></th>
+      <th class="name">Tracks <i class="fa fa-play-circle" aria-hidden="true"></i></th>
+      <th class="name">Singers <i class="fa fa-users" aria-hidden="true"></i></th>
+      <th class="name">Genres <i class="fa fa-star" aria-hidden="true"></i></th>
+    </tr>
+    </thead>
+
+     <tbody>
+        
+      {% csrf_token %}
+
+	{% for album in albums  %}
+	
+      <tr>
+        <td>{{ forloop.counter }}</td>
+
+		<td>
+          {% if album.album_photo %}
+					<img height="150" width="150" 
+					src="{{ album.album_photo.url }}"
+					 class="img-circle"> 
+					{% else %}
+					<img height="150" width="150" 
+					src="{% static 'image/avatar.png' %}"
+					 class="img-circle">
+		{% endif %}
+        </td>
+
+      	<td>
+      	 <a href="#" 
+          title="View">
+          {{ album.album_title }}
+          </a>
+        </td>
+
+        <td>
+          {% for track in album.album_tracks.all %}
+       
+
+				<li><a href="{% url 'track' track.id %}"  
+          title="View" class ="modal-edit-form-link"><b><u>{{ track }}</u></b></a></li>
+		
+			{% endfor %}
+        </td>
+
+        <td>
+          {% for singer in album.album_singers.all %}
+
+				<li><a href="{% url 'home' %}"  
+          title="View" class ="modal-edit-form-link">{{ singer }}</a></li>
+
+			{% endfor %}
+        </td>
+
+        <td>
+          {% for genre in album.album_genres.all %}
+
+				<li><a href="{% url 'genres' %}"  
+          title="View" >{{ genre }}</a></li>
+
+			{% endfor %}
+        </td>
+
+      </tr>
+
+
+       {% endfor %}
+
+      </tbody>
+      </table>
+	
+
+{% endblock content %}
+
+    {% block pagination %}
+      
+    {% with object_list=albums %}
+            {% include "catalog/pagination.html" %}
+        {% endwith %}
+
+    {% endblock pagination %}
+	
+
+
+
+
+
+	

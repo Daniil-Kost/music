@@ -1,0 +1,96 @@
+{% extends "catalog/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Singers{% endblock meta_title %}
+
+{% block extra_css %}
+<style>
+	body {
+		background-image: url("{% static 'image/nature1.jpg' %}") !important;
+		color: white !important;
+	 }
+	
+
+</style>
+{% endblock extra_css %}
+
+{% block title %}Singers List{% endblock title %}
+
+{% block content %}
+
+
+
+<table class="table table-bordered" 
+  id ="singers-table">
+    <thead>
+    <tr class="header">
+      <th class="num">#</th>
+      <th class="name">Photo <i class="fa fa-picture-o" aria-hidden="true"></i></th>
+      <th class="name">Name <i class="fa fa-user" aria-hidden="true"></i></th>
+      <th class="name">Albums <i class="fa fa-address-book-o" aria-hidden="true"></i></th>
+    </tr>
+    </thead>
+
+     <tbody>
+        
+      {% csrf_token %}
+
+	{% for singer in singers %}
+
+      <tr>
+        <td>{{ forloop.counter }}</td>
+
+		<td>
+          {% if singer.singer_photo %}
+					<img height="150" width="150" 
+					src="{{ singer.singer_photo.url }}"
+					 class="img-circle"> 
+					{% else %}
+					<img height="150" width="150" 
+					src="{% static 'image/avatar.png' %}"
+					 class="img-circle">
+		{% endif %}
+        </td>
+
+      	<td>
+      	 <a href="#" 
+          title="View">
+          {{ singer.singer_name }}
+          </a>
+        </td>
+
+        <td>
+          {% for album in singer.singer_albums.all %}
+
+				<li><a href="{% url 'albums' %}"  
+          title="View">{{ album }}</a></li>
+
+			{% endfor %}
+        </td>
+
+      </tr>
+
+       {% endfor %}
+
+      </tbody>
+      </table>
+
+		
+
+{% endblock content %}
+
+		{% block pagination %}
+			
+		{% with object_list=singers %}
+      			{% include "catalog/pagination.html" %}
+    		{% endwith %}
+
+		{% endblock pagination %}
+
+
+				
+
+
+
+	

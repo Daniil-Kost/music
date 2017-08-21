@@ -1,0 +1,115 @@
+{% extends "catalog/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %}Genres{% endblock meta_title %}
+
+{% block extra_css %}
+<style>
+  body {
+    background-image: url("{% static 'image/nature10.jpg' %}") !important;
+    color: white !important;
+   }
+  
+</style>
+{% endblock extra_css %}
+
+{% block logo %}
+  <div class="col-xs-8" id ="logo"><h1>Music Catalog Service <i class="fa fa-music" aria-hidden="true"></i></h1></div>
+
+    <div class="col-xs-4" id ="genre-selector">
+      <strong>Genre</strong>
+    <select id ="select-genre">
+      <option value ="0">All Genres</option>
+      {% for genre in GENRES %}
+     <option value="{{ genre.id }}"{% if genre.selected %}selected="1"{% endif %}>{{ genre.genre_name }}</option>
+      {% endfor %}
+    </select>
+
+    </div>
+{% endblock logo %}
+
+
+{% block title %}Genres List{% endblock title %}
+
+
+
+{% block content %}
+
+  <!-- Genre Seclector -->
+
+
+
+
+<table class="table table-bordered" 
+  id ="genre_table">
+    <thead>
+    <tr class="header">
+      <th class="num">#</th>
+      <th class="name">Photo <i class="fa fa-picture-o" aria-hidden="true"></i></th>
+      <th class="name">Name <i class="fa fa-tag" aria-hidden="true"></i></th>
+      <th class="name">Albums <i class="fa fa-address-book-o" aria-hidden="true"></th>
+    </tr>
+    </thead>
+
+     <tbody>
+        
+      {% csrf_token %}
+
+	{% for genre in genres %}
+
+      <tr>
+        <td>{{ forloop.counter }}</td>
+
+		<td>
+          {% if genre.genre_photo %}
+					<img height="150" width="150" 
+					src="{{ genre.genre_photo.url }}"
+					 class="img-circle"> 
+					{% else %}
+					<img height="150" width="150" 
+					src="{% static 'image/avatar.png' %}"
+					 class="img-circle">
+		{% endif %}
+        </td>
+
+      	<td> <a href="#" 
+          title="View">
+          {{ genre.genre_name }}</a>
+        </td>
+
+        <td>
+          {% for album in genre.genre_albums.all %}
+  
+				<li><a href="{% url 'albums' %}"  
+          title="View" class ="modal-edit-form-link">{{ album }}</a></li>
+
+			   {% endfor %}
+        </td>
+
+
+      </tr>
+
+  {% endfor %}
+
+      </tbody>
+      </table>
+	
+
+{% endblock content %}
+
+{% block pagination %}
+      
+    {% with object_list=genres %}
+            {% include "catalog/pagination.html" %}
+        {% endwith %}
+
+    {% endblock pagination %}
+
+	
+
+
+
+
+
+	
