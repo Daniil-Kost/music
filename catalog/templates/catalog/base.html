@@ -260,11 +260,13 @@ body {
 	  	<li role ="presentation" {% if request.path == '/' %}
 	  	class="active" {% endif %}>
 	  	<a href="{% url 'home' %}">Singers</a>
+
 	  	</li>
 
 	  	<li role ="presentation" {% if '/albums/' in request.path %}
 	  	class="active"{% endif %}>
 	  	<a href="{% url 'albums' %}">Albums</a>
+
 	  	</li>
 
 		<li role ="presentation" {% if '/genres/' in request.path %}
@@ -273,6 +275,8 @@ body {
 	  	</li>
 
 	</ul>
+				
+
 	</div>
 	{% endblock menu %}
 
@@ -305,7 +309,7 @@ body {
 		<a href="https://www.facebook.com/lemk.ua"> Developed by Daniil Kostyshak</a>
 	</div>
 	<div class="col-xs-4">
-		<a href="https://github.com/Daniil-Kost/django_studentsdb_project"><i class="fa fa-github" aria-hidden="true"></i>View at GitHub</a>
+		<a href="https://github.com/Daniil-Kost/music"><i class="fa fa-github" aria-hidden="true"></i>View at GitHub</a>
 	</div>
   </div>
   <!-- End Footer -->
